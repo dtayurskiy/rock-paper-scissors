@@ -4,9 +4,9 @@
 //Record who won
 //Once one player gets 3 wins, end the game and declare that player the winner
 
-let playerChoice = "scIssoRs";
-playerChoice = playerChoice.toLowerCase();
-const computerChoice = getComputerChoice();
+//let playerChoice = "scIssoRs";
+//playerChoice = playerChoice.toLowerCase();
+
 
 //Have program randomly pick between rock, paper, or scissors
 function getComputerChoice() {
@@ -21,20 +21,81 @@ function playRound(player, computer) {
     let result;
     
     if (player === computer) {
-        result = "It's a draw!"
+        result = "draw"
     }
     else if (player === "rock" && computer === "paper" || player === "paper" && computer === "scissors" || player === "scissors" && computer === "rock") {
-        result = "Computer wins! " + computer + " beats " + player;
+        result = "computer win";
     }
     else if (computer === "rock" && player === "paper" || computer === "paper" && player === "scissors" || computer === "scissors" && player === "rock") {
-        result = "You win! " + player + " beats " + computer;
+        result = "player win";
     }
     else {
-        result ="Invalid selection, please choose between rock, paper, or scissors";
+        result ="invalid";
     }
 
     return result;
 }
 
-console.log(playRound(playerChoice, computerChoice))
+//Continue playing rounds until one player reaches three wins
+function playGame() {
+    let gameOver = false;
+    let playerCounter = 0;
+    let computerCounter = 0;
+    let roundCounter = 0;
+    let message;
+
+    while (gameOver === false) {
+        if (playerCounter < 3 && computerCounter < 3) {
+            let computerChoice = getComputerChoice();
+            let playerChoice = getComputerChoice();
+
+            if (playRound(playerChoice, computerChoice) === "computer win") {
+                computerCounter++;
+                roundCounter++;
+                message = "Round " + roundCounter + ":\nComputer wins! " + computerChoice + " beats " + playerChoice + "\nCurrent Score: Player:" + playerCounter + " Computer:" + computerCounter;
+                
+                console.log(message)
+            }
+            else if (playRound(playerChoice, computerChoice) === "player win") {
+                playerCounter++;
+                roundCounter++;
+                message = "Round " + roundCounter + ":\nPlayer wins! " + playerChoice + " beats " + computerChoice + "\nCurrent Score: Player:" + playerCounter + " Computer:" + computerCounter;
+                
+                console.log(message)
+            }
+            else if (playRound(playerChoice, computerChoice) === "draw") {
+                roundCounter++;
+                message = "Round " + roundCounter + ":\nDraw! " + "\nCurrent Score: Player:" + playerCounter + " Computer:" + computerCounter;
+                
+                console.log(message)
+            }
+            else {
+                gameOver = true;
+                message = "Something went wrong, game ended :("
+                
+                console.log(message)
+            }
+        }
+        else if (computerCounter === 3) {
+            gameOver = true;
+            message = "Game Over!\nComputer Wins!\nFinal Score: Player:" + playerCounter + " Computer:" + computerCounter;
+            
+            console.log(message)
+        }
+        else if (playerCounter === 3) {
+            gameOver = true;
+            message = "Game Over!\nPlayer Wins!\nFinal Score: Player:" + playerCounter + " Computer:" + computerCounter;
+            
+            console.log(message)
+        }
+        else {
+            gameOver = true;
+            message = "Something went wrong, game ended :("
+            
+            console.log(message)
+        }
+    }
+}
+
+playGame()
 
