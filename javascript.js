@@ -30,7 +30,7 @@ function playRound(player, computer) {
         result = "player win";
     }
     else {
-        result ="invalid";
+        result = "invalid";
     }
 
     return result;
@@ -71,7 +71,7 @@ function playGame() {
             }
             else {
                 gameOver = true;
-                message = "Something went wrong, game ended :("
+                message = "Something went wrong, game ended."
                 
                 console.log(message)
             }
@@ -90,7 +90,7 @@ function playGame() {
         }
         else {
             gameOver = true;
-            message = "Something went wrong, game ended :("
+            message = "Something went wrong, game ended."
             
             console.log(message)
         }
