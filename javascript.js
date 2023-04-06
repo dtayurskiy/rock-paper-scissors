@@ -15,12 +15,15 @@ let roundCounter = 0;
 
 rock.addEventListener('click', function(e) {
     playGame("Rock");
+    checkGameOver();
 });
 paper.addEventListener('click', function(e) {
     playGame("Paper");
+    checkGameOver();
 });
 scissors.addEventListener('click', function(e) {
     playGame("Scissors");
+    checkGameOver();
 });
 
 
@@ -33,7 +36,7 @@ function getComputerChoice() {
 }
 
 function displayResult(content) {
-        document.getElementById("result").innerHTML = content;
+    document.getElementById("result").innerHTML = content;
 }
 
 //Determine result of the game by comparing the selection of the player to that of the computer
@@ -67,12 +70,11 @@ function playRound(player, computer) {
 
 //Continue playing rounds until one player reaches three wins
 function playGame(playerChoice) {
-    let gameOver = false;
     let message;
 
     if (playerCounter < 3 && computerCounter < 3) {
         let computerChoice = getComputerChoice();
-        
+        const resultMessage = "";
 
         if (playRound(playerChoice, computerChoice) === "computer win") {
             computerCounter++;
@@ -80,6 +82,7 @@ function playGame(playerChoice) {
             message = "Round " + roundCounter + ":<br>Computer wins! " + computerChoice + " beats " + playerChoice + "<br>Current Score: Player:" + playerCounter + " Computer:" + computerCounter;
             
             displayResult(message);
+            displayGameResult(resultMessage);
         }
         else if (playRound(playerChoice, computerChoice) === "player win") {
             playerCounter++;
@@ -87,39 +90,52 @@ function playGame(playerChoice) {
             message = "Round " + roundCounter + ":<br>Player wins! " + playerChoice + " beats " + computerChoice + "<br>Current Score: Player:" + playerCounter + " Computer:" + computerCounter;
             
             displayResult(message);
+            displayGameResult(resultMessage);
         }
         else if (playRound(playerChoice, computerChoice) === "draw") {
             roundCounter++;
             message = "Round " + roundCounter + ":<br>Draw! " + "<br>Current Score: Player:" + playerCounter + " Computer:" + computerCounter;
             
             displayResult(message);
+            displayGameResult(resultMessage);
         }
         else {
             gameOver = true;
             message = "Something went wrong, game ended :("
             
             displayResult(message);
+            displayGameResult(resultMessage);
         }
     }
-    else if (computerCounter === 3) {
-        gameOver = true;
-        message = "Game Over!<br>Computer Wins!<br>Final Score: Player:" + playerCounter + " Computer:" + computerCounter;
-        
-        displayResult(message);
-    }
-    else if (playerCounter === 3) {
-        gameOver = true;
-        message = "Game Over!<br>Player Wins!<br>Final Score: Player:" + playerCounter + " Computer:" + computerCounter;
-        
-        displayResult(message);
-    }
     else {
-        gameOver = true;
         message = "Something went wrong, game ended :("
         
         displayResult(message);
+        displayGameResult(resultMessage);
     }
 }
 
+function checkGameOver() {
+    let message = "";
+    if (computerCounter === 3) {
+        message = "Game Over! Computer Wins! Click to play again.";
+        displayGameResult(message);
+        resetGame();
+    }
+    else if (playerCounter === 3) {
+        message = "Game Over! Player Wins! Click to play again.";
+        displayGameResult(message);
+        resetGame();
+    }
+}
 
+function displayGameResult(message) {
+    document.getElementById("gameResult").innerHTML = message;
+}
+
+function resetGame() {
+    playerCounter = 0;
+    computerCounter = 0;
+    roundCounter = 0;
+}
 
