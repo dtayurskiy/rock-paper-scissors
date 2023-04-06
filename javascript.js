@@ -4,27 +4,29 @@
 //Record who won
 //Once one player gets 3 wins, end the game and declare that player the winner
 
-//let playerChoice = "scIssoRs";
-//playerChoice = playerChoice.toLowerCase();
 
 const rock = document.getElementById("rock");
 const paper = document.getElementById("paper");
 const scissors = document.getElementById("scissors");
 
+let playerCounter = 0;
+let computerCounter = 0;
+let roundCounter = 0;
+
 rock.addEventListener('click', function(e) {
-    playRound("rock", getComputerChoice());
+    playGame("Rock");
 });
 paper.addEventListener('click', function(e) {
-    playRound("paper", getComputerChoice());
+    playGame("Paper");
 });
 scissors.addEventListener('click', function(e) {
-    playRound("scissors", getComputerChoice());
+    playGame("Scissors");
 });
 
 
 //Have program randomly pick between rock, paper, or scissors
 function getComputerChoice() {
-    const choices = ["rock", "paper", "scissors"];
+    const choices = ["Rock", "Paper", "Scissors"];
     const randomIndex = Math.floor(Math.random() * choices.length);
     const finalChoice = choices[randomIndex];
     return finalChoice;
@@ -39,92 +41,83 @@ function playRound(player, computer) {
     let result;
             
     if (player === computer) {
-        result = 'Draw!';
-        displayResult(result);
+        result = "draw";
+        //displayResult(result);
         //p.textContent = 'Draw!';
         //results.appendChild(p);
         //console.log(result)
 
     }
-    else if (player === "rock" && computer === "paper" || player === "paper" && computer === "scissors" || player === "scissors" && computer === "rock") {
-        result = `Computer Wins! ${computer} beats ${player}`;
-        displayResult(result);
+    else if (player === "Rock" && computer === "Paper" || player === "Paper" && computer === "Scissors" || player === "Scissors" && computer === "Rock") {
+        result = "computer win";
+        //displayResult(result);
         //p.textContent = `Computer Wins! ${computer} beats ${player}`;
-        //results.appendChild(p);
-        //console.log(result)
     }
-    else if (computer === "rock" && player === "paper" || computer === "paper" && player === "scissors" || computer === "scissors" && player === "rock") {
-        result = `You Win! ${player} beats ${computer}`;
-        displayResult(result);
+    else if (computer === "Rock" && player === "Paper" || computer === "Paper" && player === "Scissors" || computer === "Scissors" && player === "Rock") {
+        result = "player win";
+        //displayResult(result);
         //p.textContent = `You Win! ${player} beats ${computer}`;
-        //results.appendChild(p);
-        //console.log(result)
     }
     else {
         result ="invalid";
     }
    
-    //return result;
+    return result;
 }
 
 //Continue playing rounds until one player reaches three wins
-function playGame() {
+function playGame(playerChoice) {
     let gameOver = false;
-    let playerCounter = 0;
-    let computerCounter = 0;
-    let roundCounter = 0;
     let message;
 
-    while (gameOver === false) {
-        if (playerCounter < 3 && computerCounter < 3) {
-            let computerChoice = getComputerChoice();
-            let playerChoice = getComputerChoice();
+    if (playerCounter < 3 && computerCounter < 3) {
+        let computerChoice = getComputerChoice();
+        
 
-            if (playRound(playerChoice, computerChoice) === "computer win") {
-                computerCounter++;
-                roundCounter++;
-                message = "Round " + roundCounter + ":\nComputer wins! " + computerChoice + " beats " + playerChoice + "\nCurrent Score: Player:" + playerCounter + " Computer:" + computerCounter;
-                
-                console.log(message)
-            }
-            else if (playRound(playerChoice, computerChoice) === "player win") {
-                playerCounter++;
-                roundCounter++;
-                message = "Round " + roundCounter + ":\nPlayer wins! " + playerChoice + " beats " + computerChoice + "\nCurrent Score: Player:" + playerCounter + " Computer:" + computerCounter;
-                
-                console.log(message)
-            }
-            else if (playRound(playerChoice, computerChoice) === "draw") {
-                roundCounter++;
-                message = "Round " + roundCounter + ":\nDraw! " + "\nCurrent Score: Player:" + playerCounter + " Computer:" + computerCounter;
-                
-                console.log(message)
-            }
-            else {
-                gameOver = true;
-                message = "Something went wrong, game ended :("
-                
-                console.log(message)
-            }
-        }
-        else if (computerCounter === 3) {
-            gameOver = true;
-            message = "Game Over!\nComputer Wins!\nFinal Score: Player:" + playerCounter + " Computer:" + computerCounter;
+        if (playRound(playerChoice, computerChoice) === "computer win") {
+            computerCounter++;
+            roundCounter++;
+            message = "Round " + roundCounter + ":<br>Computer wins! " + computerChoice + " beats " + playerChoice + "<br>Current Score: Player:" + playerCounter + " Computer:" + computerCounter;
             
-            console.log(message)
+            displayResult(message);
         }
-        else if (playerCounter === 3) {
-            gameOver = true;
-            message = "Game Over!\nPlayer Wins!\nFinal Score: Player:" + playerCounter + " Computer:" + computerCounter;
+        else if (playRound(playerChoice, computerChoice) === "player win") {
+            playerCounter++;
+            roundCounter++;
+            message = "Round " + roundCounter + ":<br>Player wins! " + playerChoice + " beats " + computerChoice + "<br>Current Score: Player:" + playerCounter + " Computer:" + computerCounter;
             
-            console.log(message)
+            displayResult(message);
+        }
+        else if (playRound(playerChoice, computerChoice) === "draw") {
+            roundCounter++;
+            message = "Round " + roundCounter + ":<br>Draw! " + "<br>Current Score: Player:" + playerCounter + " Computer:" + computerCounter;
+            
+            displayResult(message);
         }
         else {
             gameOver = true;
             message = "Something went wrong, game ended :("
             
-            console.log(message)
+            displayResult(message);
         }
+    }
+    else if (computerCounter === 3) {
+        gameOver = true;
+        message = "Game Over!<br>Computer Wins!<br>Final Score: Player:" + playerCounter + " Computer:" + computerCounter;
+        
+        displayResult(message);
+    }
+    else if (playerCounter === 3) {
+        gameOver = true;
+        message = "Game Over!<br>Player Wins!<br>Final Score: Player:" + playerCounter + " Computer:" + computerCounter;
+        
+        displayResult(message);
+    }
+    else {
+        gameOver = true;
+        message = "Something went wrong, game ended :("
+        
+        displayResult(message);
     }
 }
 
