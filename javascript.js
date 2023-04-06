@@ -7,6 +7,20 @@
 //let playerChoice = "scIssoRs";
 //playerChoice = playerChoice.toLowerCase();
 
+const rock = document.getElementById("rock");
+const paper = document.getElementById("paper");
+const scissors = document.getElementById("scissors");
+
+rock.addEventListener('click', function(e) {
+    playRound("rock", getComputerChoice());
+});
+paper.addEventListener('click', function(e) {
+    playRound("paper", getComputerChoice());
+});
+scissors.addEventListener('click', function(e) {
+    playRound("scissors", getComputerChoice());
+});
+
 
 //Have program randomly pick between rock, paper, or scissors
 function getComputerChoice() {
@@ -16,24 +30,41 @@ function getComputerChoice() {
     return finalChoice;
 }
 
+function displayResult(content) {
+        document.getElementById("result").innerHTML = content;
+}
+
 //Determine result of the game by comparing the selection of the player to that of the computer
 function playRound(player, computer) {
     let result;
-    
+            
     if (player === computer) {
-        result = "draw"
+        result = 'Draw!';
+        displayResult(result);
+        //p.textContent = 'Draw!';
+        //results.appendChild(p);
+        //console.log(result)
+
     }
     else if (player === "rock" && computer === "paper" || player === "paper" && computer === "scissors" || player === "scissors" && computer === "rock") {
-        result = "computer win";
+        result = `Computer Wins! ${computer} beats ${player}`;
+        displayResult(result);
+        //p.textContent = `Computer Wins! ${computer} beats ${player}`;
+        //results.appendChild(p);
+        //console.log(result)
     }
     else if (computer === "rock" && player === "paper" || computer === "paper" && player === "scissors" || computer === "scissors" && player === "rock") {
-        result = "player win";
+        result = `You Win! ${player} beats ${computer}`;
+        displayResult(result);
+        //p.textContent = `You Win! ${player} beats ${computer}`;
+        //results.appendChild(p);
+        //console.log(result)
     }
     else {
         result ="invalid";
     }
-
-    return result;
+   
+    //return result;
 }
 
 //Continue playing rounds until one player reaches three wins
@@ -97,5 +128,5 @@ function playGame() {
     }
 }
 
-playGame()
+
 
