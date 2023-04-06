@@ -1,4 +1,18 @@
-.buttons {
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
     height: 50px;
     width: 120px;
+}
+
+.main {
+    
+}
+
+.buttons {
+    align-self: auto;
 }
